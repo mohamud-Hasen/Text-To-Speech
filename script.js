@@ -2,7 +2,7 @@ const main = document.querySelector('main');
 const voiceSelect = document.getElementById('voices');
 const textarea = document.getElementById('text');
 const readBtn = document.getElementById('read');
-const toggleBnt = document.getElementById('toggle');
+const toggleBtn = document.getElementById('toggle');
 const closeBtn = document.getElementById('close');
 
 const data = [
@@ -69,3 +69,27 @@ const data = [
     // @todo - speak event
     main.appendChild(box);
   }
+  // voices changed
+  speechSynthesis.addEventListener('voiceschanged', getVoices);
+
+
+  // store voices
+  let voices = [];
+
+  function getVoices() {
+    voices = speechSynthesis.getVoices();
+    voices.forEach(voice => {
+      const option = document.createElement('option');
+      option.value = voice.name;
+      option.innerHTML = `${voice.name} ${voice.lang}`;
+      voiceSelect.appendChild(option);
+    })
+  }
+
+
+  // toggle text box
+  toggleBtn.addEventListener('click', () => document.getElementById('text-box').classList.toggle('show'));
+  // close btn
+  closeBtn.addEventListener('click', () => document.getElementById('text-box').classList.remove('show'));
+
+  getVoices();
